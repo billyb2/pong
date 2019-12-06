@@ -148,14 +148,20 @@ function frame() {
     //Ball collision against top and bottom wall
     if(ball.y <= 0 || ball.y+ ball.height >= ctx.canvas.height){
     	ball.velY = -ball.velY;
+        
     } 
     
     if(ball.x <= player1.x + player1.width && ball.y + ball.height >= player1.y && ball.y <= player1.y + player1.height){
     	ball.velX = -ball.velX;
+        ball.velX --;
+        player1.speed ++;
     }
     
     if(ball.x >= player2.x && ball.y + ball.height >= player2.y && ball.y <= player2.y + player2.height){
     	ball.velX = -ball.velX;
+        ball.velX ++;
+        player1.speed ++;
+
     }
     
     
