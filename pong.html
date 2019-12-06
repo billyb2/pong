@@ -1,0 +1,99 @@
+<canvas id="canvas"></canvas>
+
+<script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext('2d');
+
+ctx.canvas.width = 900;
+ctx.canvas.height = 500;
+
+var keys = [];
+
+
+//Sets up player object-prototype
+function Player(player) {
+	this.x = player.x;
+	this.y = player.y
+
+	this.width = player.width;
+	this.height = player.height;
+    
+    this.speed = player.speed;
+
+}
+
+var player1 = new Player({
+	x: 0,
+	y: ctx.canvas.height / 2 - 50,
+	width: 20,
+	height: 100,
+    speed: 8
+
+
+});
+
+var player2 = new Player({
+	x: ctx.canvas.width - 20,
+	y: ctx.canvas.height / 2 - 50,
+	width: 20,
+	height: 100,
+    speed: 8
+
+
+});
+
+
+	//Key detection stuff
+	document.body.addEventListener("keydown", function(e) {
+		keys[e.keyCode] = true;
+	});
+	document.body.addEventListener("keyup", function(e) {
+		keys[e.keyCode] = false;
+	});
+
+
+
+function frame() {
+	//Clears screen
+	ctx.fillStyle = "black";
+	ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+	//Draws players
+	ctx.fillStyle = "white";
+	ctx.fillRect(player1.x, player1.y, player1.width, player1.height);
+
+	//Draws players
+	ctx.fillStyle = "white";
+	ctx.fillRect(player2.x, player2.y, player2.width, player2.height);
+
+
+
+
+
+	//Player 1 movement
+	if (keys[38]) {
+    	player1.y -= player1.speed;
+    } else if (keys[40]){
+    	player1.y += player1.speed;
+    }
+    
+    //Player 2 movement
+    if (keys[87]) {
+    	player2.y -= player2.speed;
+    } else if(keys[83]) {
+    	player2.y += player2.speed;
+    }
+
+
+
+	requestAnimationFrame(frame);
+
+
+
+
+}
+
+frame();
+
+
+</script>
