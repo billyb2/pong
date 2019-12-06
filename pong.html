@@ -72,16 +72,26 @@ function frame() {
 
 	//Player 1 movement
 	if (keys[38]) {
-    	player1.y -= player1.speed;
+    	if(player1.y >= 0){
+    		player1.y -= player1.speed;
+        }
+        
     } else if (keys[40]){
-    	player1.y += player1.speed;
+    	if(player1.y <= ctx.canvas.height - player1.height){
+    		player1.y += player1.speed;
+        }
     }
+    
     
     //Player 2 movement
     if (keys[87]) {
-    	player2.y -= player2.speed;
+    	if(player2.y >= 0){
+    		player2.y -= player2.speed;
+        }
     } else if(keys[83]) {
-    	player2.y += player2.speed;
+    	if(player2.y <= ctx.canvas.height - player1.height){
+    		player2.y += player2.speed;
+        }
     }
 
 
