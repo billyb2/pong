@@ -82,6 +82,18 @@ var ball = new Ball({
 	});
 
 
+ball.angle = Math.floor(Math.random() * 89) + 1
+
+ball.velX = 5;
+ball.velY = 5;
+
+
+if(Math.random() > 0.5){
+	ball.direction = "left";
+} else {
+	ball.direction = "right";
+}
+
 
 function frame() {
 	//Clears screen
@@ -130,15 +142,31 @@ function frame() {
     		player2.y += player2.speed;
         }
     }
-    
-    ball.velX = ball.speed;
-    ball.velY = ball.speed;
+
     
     
+    //Ball collision against top and bottom wall
+    if(ball.y <= 0 || ball.y+ ball.height >= ctx.canvas.height){
+    	ball.velY = -ball.velY;
+    } 
+    
+    if(ball.x <= player1.x + player1.width && ball.y + ball.height >= player1.y && ball.y <= player1.y + player1.height){
+    	ball.velX = -ball.velX;
+    }
+    
+    if(ball.x >= player2.x && ball.y + ball.height >= player2.y && ball.y <= player2.y + player2.height){
+    	ball.velX = -ball.velX;
+    }
     
     
-   	ball.x += ball.velX * Math.cos(ball.angle * Math.PI / 180);
-    ball.y += ball.velY * Math.sin(ball.angle * Math.PI / 180);
+    //Ball movement
+    if(ball.direction == "right"){
+      ball.x += ball.velX * Math.cos(ball.angle * Math.PI / 180);
+      ball.y += ball.velY * Math.sin(ball.angle * Math.PI / 180);
+    } else if (ball.direction == "left"){
+      ball.x -= ball.velX * Math.cos(ball.angle * Math.PI / 180);
+      ball.y -= ball.velY * Math.sin(ball.angle * Math.PI / 180);
+    }
 
 
 
