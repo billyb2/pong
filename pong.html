@@ -151,16 +151,24 @@ function frame() {
         
     } 
     
+    
+    //Against left and right walls
+    
+    //Against player paddles
     if(ball.x <= player1.x + player1.width && ball.y + ball.height >= player1.y && ball.y <= player1.y + player1.height){
+    	ctx.fillRect(200, 200, 20, 20);
+        ball.velX ++;
     	ball.velX = -ball.velX;
-        ball.velX --;
         player1.speed ++;
+        player2.speed ++;
     }
     
     if(ball.x >= player2.x && ball.y + ball.height >= player2.y && ball.y <= player2.y + player2.height){
+        	ctx.fillRect(200, 200, 20, 20);
+        ball.velX --;
     	ball.velX = -ball.velX;
-        ball.velX ++;
         player1.speed ++;
+        player2.speed ++;
 
     }
     
