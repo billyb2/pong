@@ -9,6 +9,9 @@ ctx.canvas.height = 500;
 
 var keys = [];
 
+var theScreen = "ready";
+var startedWait = false;
+
 
 //Sets up player object-prototype
 //Would normally just setup 2 players, but might add 4 player support
@@ -33,8 +36,8 @@ function Ball(ball){
     this.width = ball.width;
     this.height = ball.height;
     
+    this.direction = null;
     this.speed = ball.speed;
-    this.direction;
     this.angle = 0;
     this.velX = 0;
     this.velY = 0;
@@ -73,6 +76,7 @@ var ball = new Ball({
 
 
 
+
 	//Key detection stuff
 	document.body.addEventListener("keydown", function(e) {
 		keys[e.keyCode] = true;
@@ -81,8 +85,8 @@ var ball = new Ball({
 		keys[e.keyCode] = false;
 	});
 
-
-ball.angle = Math.floor(Math.random() * 89) + 1
+ball.angle = 0;
+//ball.angle = Math.floor(Math.random() * 89) + 1
 
 ball.velX = 5;
 ball.velY = 5;
@@ -94,12 +98,42 @@ if(Math.random() > 0.5){
 	ball.direction = "right";
 }
 
+//Resets all variables of game
+function reset(){
+
+//Reset ball variables
+if(Math.random() > 0.5){
+	ball.direction = "left";
+} else {
+	ball.direction = "right";
+}
+
+ball.x = ctx.canvas.width/2 - 5;
+ball.y = ctx.canvas.height/2 - 5;
+
+ball.velX = 5;
+
+//Reset player variables
+player1.x = 0;
+player2.x = ctx.canvas.width - player2.width
+
+player1.y = ctx.canvas.height/2 - player1.height/2;
+player2.y = ctx.canvas.height/2 - player1.height/2;
+
+player1.speed = 8;
+player2.speed = 8;
+    
+    
+}
+
+
 
 function frame() {
 	//Clears screen
 	ctx.fillStyle = "black";
 	ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
+    
+  if(theScreen == "game"){
 	//Draws players
 	ctx.fillStyle = "white";
 	ctx.fillRect(player1.x, player1.y, player1.width, player1.height);
@@ -153,22 +187,36 @@ function frame() {
     
     
     //Against left and right walls
+    if (ball.x + ball.width >= ctx.canvas.width){
+    	theScreen = "p1s";
+    } else if(ball.x <= 0){
+    	theScreen = "p2s";
+    }
     
     //Against player paddles
     if(ball.x <= player1.x + player1.width && ball.y + ball.height >= player1.y && ball.y <= player1.y + player1.height){
-    	ctx.fillRect(200, 200, 20, 20);
-        ball.velX ++;
+        
+        if(ball.velX > 0){
+        	ball.velX ++;
+        } else {
+        	ball.velX --;
+        }
     	ball.velX = -ball.velX;
-        player1.speed ++;
-        player2.speed ++;
+        
+        player1.speed += 0.5;
+        player2.speed += 0.5;
     }
     
-    if(ball.x >= player2.x && ball.y + ball.height >= player2.y && ball.y <= player2.y + player2.height){
-        	ctx.fillRect(200, 200, 20, 20);
-        ball.velX --;
+    if(ball.x + ball.width>= player2.x && ball.y + ball.height >= player2.y && ball.y <= player2.y + player2.height){
+
+		if(ball.velX > 0){
+        	ball.velX ++;
+        } else {
+        	ball.velX --;
+        }        
     	ball.velX = -ball.velX;
-        player1.speed ++;
-        player2.speed ++;
+        player1.speed += 0.5;
+        player2.speed += 0.5;
 
     }
     
@@ -182,11 +230,63 @@ function frame() {
       ball.y -= ball.velY * Math.sin(ball.angle * Math.PI / 180);
     }
 
+  } else if(theScreen == "ready"){
+	ctx.fillStyle = "white";
+    ctx.font = "100px Arial"
+    ctx.fillText("READY", ctx.canvas.width/2 - 200, ctx.canvas.height/2);
 
+
+
+
+	if(startedWait == false){
+    startedWait = true;
+    setTimeout(function(){
+    	theScreen = "game";
+        startedWait = false;
+    }, 2000);
+    
+    }
+    
+    
+  } else if(theScreen == "p1s"){
+	ctx.fillStyle = "white";
+    ctx.font = "100px Arial"
+    ctx.fillText("P1 SCORED", ctx.canvas.width/2 - 200, ctx.canvas.height/2);
+    
+    reset();
+    
+	if(startedWait == false){
+    startedWait = true;
+    setTimeout(function(){
+    	theScreen = "game";
+        startedWait = false;
+    }, 1500);
+    }
+    
+    
+  } else if(theScreen == "p2s"){
+	ctx.fillStyle = "white";
+    ctx.font = "100px Arial"
+    ctx.fillText("P2 SCORED", ctx.canvas.width/2 - 200, ctx.canvas.height/2);
+    
+    
+    reset();
+
+    
+	if(startedWait == false){
+    startedWait = true;
+    setTimeout(function(){
+    	theScreen = "game";
+        startedWait = false;
+    }, 1500);
+    
+    }
+    
+  }
 
 	requestAnimationFrame(frame);
 
-
+  
 
 
 }
