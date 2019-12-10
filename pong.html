@@ -21,27 +21,27 @@ function Player(player) {
 
 	this.width = player.width;
 	this.height = player.height;
-    
-    this.speed = player.speed;
+
+	this.speed = player.speed;
 
 }
 
 
 //Ball object-prototype
 //Again, might have powerups or something if I get the basic game done early, might as well make it easy to have multiple balls
-function Ball(ball){
+function Ball(ball) {
 	this.x = ball.x;
-    this.y = ball.y;
-    
-    this.width = ball.width;
-    this.height = ball.height;
-    
-    this.direction = null;
-    this.speed = ball.speed;
-    this.angle = 0;
-    this.velX = 0;
-    this.velY = 0;
-    
+	this.y = ball.y;
+
+	this.width = ball.width;
+	this.height = ball.height;
+
+	this.direction = null;
+	this.speed = ball.speed;
+	this.angle = 0;
+	this.velX = 0;
+	this.velY = 0;
+
 }
 
 var player1 = new Player({
@@ -49,7 +49,7 @@ var player1 = new Player({
 	y: ctx.canvas.height / 2 - 50,
 	width: 20,
 	height: 100,
-    speed: 8
+	speed: 8
 
 
 });
@@ -59,31 +59,31 @@ var player2 = new Player({
 	y: ctx.canvas.height / 2 - 50,
 	width: 20,
 	height: 100,
-    speed: 8
+	speed: 8
 
 
 });
 
 
 var ball = new Ball({
-	x: ctx.canvas.width/2 - 5,
-    y: ctx.canvas.height/2 - 5,
-    width: 10,
-    height: 10,
-    speed: 4
+	x: ctx.canvas.width / 2 - 5,
+	y: ctx.canvas.height / 2 - 5,
+	width: 10,
+	height: 10,
+	speed: 4
 
 });
 
 
 
 
-	//Key detection stuff
-	document.body.addEventListener("keydown", function(e) {
-		keys[e.keyCode] = true;
-	});
-	document.body.addEventListener("keyup", function(e) {
-		keys[e.keyCode] = false;
-	});
+//Key detection stuff
+document.body.addEventListener("keydown", function(e) {
+	keys[e.keyCode] = true;
+});
+document.body.addEventListener("keyup", function(e) {
+	keys[e.keyCode] = false;
+});
 
 ball.angle = 0;
 //ball.angle = Math.floor(Math.random() * 89) + 1
@@ -92,38 +92,38 @@ ball.velX = 5;
 ball.velY = 5;
 
 
-if(Math.random() > 0.5){
+if (Math.random() > 0.5) {
 	ball.direction = "left";
 } else {
 	ball.direction = "right";
 }
 
 //Resets all variables of game
-function reset(){
+function reset() {
 
-//Reset ball variables
-if(Math.random() > 0.5){
-	ball.direction = "left";
-} else {
-	ball.direction = "right";
-}
+	//Reset ball variables
+	if (Math.random() > 0.5) {
+		ball.direction = "left";
+	} else {
+		ball.direction = "right";
+	}
 
-ball.x = ctx.canvas.width/2 - 5;
-ball.y = ctx.canvas.height/2 - 5;
+	ball.x = ctx.canvas.width / 2 - 5;
+	ball.y = ctx.canvas.height / 2 - 5;
 
-ball.velX = 5;
+	ball.velX = 5;
 
-//Reset player variables
-player1.x = 0;
-player2.x = ctx.canvas.width - player2.width
+	//Reset player variables
+	player1.x = 0;
+	player2.x = ctx.canvas.width - player2.width
 
-player1.y = ctx.canvas.height/2 - player1.height/2;
-player2.y = ctx.canvas.height/2 - player1.height/2;
+	player1.y = ctx.canvas.height / 2 - player1.height / 2;
+	player2.y = ctx.canvas.height / 2 - player1.height / 2;
 
-player1.speed = 8;
-player2.speed = 8;
-    
-    
+	player1.speed = 8;
+	player2.speed = 8;
+
+
 }
 
 
@@ -132,189 +132,197 @@ function frame() {
 	//Clears screen
 	ctx.fillStyle = "black";
 	ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    
-  if(theScreen == "game"){
-	//Draws players
-	ctx.fillStyle = "white";
-	ctx.fillRect(player1.x, player1.y, player1.width, player1.height);
 
-	ctx.fillStyle = "white";
-	ctx.fillRect(player2.x, player2.y, player2.width, player2.height);
-    
-    //Draw ball(s)
-    ctx.fillStyle = "white";
-    ctx.fillRect(ball.x, ball.y, ball.width, ball.height)
+	if (theScreen == "game") {
+		//Draws players
+		ctx.fillStyle = "white";
+		ctx.fillRect(player1.x, player1.y, player1.width, player1.height);
 
+		ctx.fillStyle = "white";
+		ctx.fillRect(player2.x, player2.y, player2.width, player2.height);
 
-
-	
+		//Draw ball(s)
+		ctx.fillStyle = "white";
+		ctx.fillRect(ball.x, ball.y, ball.width, ball.height)
 
 
 
 
+		//Player 1 movement
+		if (keys[38]) {
+			if (player1.y >= 0) {
+				player1.y -= player1.speed;
+			}
 
-	//Player 1 movement
-	if (keys[38]) {
-    	if(player1.y >= 0){
-    		player1.y -= player1.speed;
-        }
+		} else if (keys[40]) {
+			if (player1.y <= ctx.canvas.height - player1.height) {
+				player1.y += player1.speed;
+			}
+		}
+
+
+		//Player 2 movement
+		if (keys[87]) {
+			if (player2.y >= 0) {
+				player2.y -= player2.speed;
+			}
+		} else if (keys[83]) {
+			if (player2.y <= ctx.canvas.height - player1.height) {
+				player2.y += player2.speed;
+			}
+		}
+
+		//Pause screen
+		if (keys[32]) {
+			theScreen = "pause";
+		}
+
+
+		//Ball collision against top and bottom wall
+		if (ball.y <= 0 || ball.y + ball.height >= ctx.canvas.height) {
+			ball.velY = -ball.velY;
+
+		}
+
+
+		//Against left and right walls
+		if (ball.x + ball.width >= ctx.canvas.width) {
+			theScreen = "p1s";
+		} else if (ball.x <= 0) {
+			theScreen = "p2s";
+		}
+
+		//Against player paddles
+		if (ball.x <= player1.x + player1.width && ball.y + ball.height >= player1.y && ball.y <= player1.y + player1.height) {
+
+			if (ball.velX > 0) {
+				ball.velX++;
+			} else {
+				ball.velX--;
+			}
+			ball.velX = -ball.velX;
+
+			player1.speed += 0.5;
+			player2.speed += 0.5;
+		}
+
+		if (ball.x + ball.width >= player2.x && ball.y + ball.height >= player2.y && ball.y <= player2.y + player2.height) {
+
+			if (ball.velX > 0) {
+				ball.velX++;
+			} else {
+				ball.velX--;
+			}
+			ball.velX = -ball.velX;
+			player1.speed += 0.5;
+			player2.speed += 0.5;
+
+		}
+
+
+		//Ball movement
+		if (ball.direction == "right") {
+			ball.x += ball.velX * Math.cos(ball.angle * Math.PI / 180);
+			ball.y += ball.velY * Math.sin(ball.angle * Math.PI / 180);
+		} else if (ball.direction == "left") {
+			ball.x -= ball.velX * Math.cos(ball.angle * Math.PI / 180);
+			ball.y -= ball.velY * Math.sin(ball.angle * Math.PI / 180);
+		}
+
+	} else if (theScreen == "ready") {
+		ctx.fillStyle = "white";
+		ctx.font = "100px Arial"
+		ctx.fillText("READY", ctx.canvas.width / 2 - 200, ctx.canvas.height / 2);
+
+
+
+
+		if (startedWait == false) {
+			startedWait = true;
+			setTimeout(function() {
+				theScreen = "game";
+				startedWait = false;
+			}, 2000);
+
+		}
+
+
+	} else if (theScreen == "p1s") {
+		ctx.fillStyle = "white";
+		ctx.font = "100px Arial"
+		ctx.fillText("P1 SCORED", ctx.canvas.width / 2 - 200, ctx.canvas.height / 2);
+
+		reset();
+
+		if (startedWait == false) {
+			startedWait = true;
+			setTimeout(function() {
+				theScreen = "game";
+				startedWait = false;
+			}, 1500);
+		}
+
+
+	} else if (theScreen == "p2s") {
+		ctx.fillStyle = "white";
+		ctx.font = "100px Arial"
+		ctx.fillText("P2 SCORED", ctx.canvas.width / 2 - 200, ctx.canvas.height / 2);
+
+
+		reset();
+
+
+		if (startedWait == false) {
+			startedWait = true;
+			setTimeout(function() {
+				theScreen = "game";
+				startedWait = false;
+			}, 1500);
+
+		}
+
+	} else if (theScreen == "pause") {
+		ctx.fillStyle = "white";
+		ctx.font = "100px Arial";
         
-    } else if (keys[40]){
-    	if(player1.y <= ctx.canvas.height - player1.height){
-    		player1.y += player1.speed;
-        }
-    }
-    
-    
-    //Player 2 movement
-    if (keys[87]) {
-    	if(player2.y >= 0){
-    		player2.y -= player2.speed;
-        }
-    } else if(keys[83]) {
-    	if(player2.y <= ctx.canvas.height - player1.height){
-    		player2.y += player2.speed;
-        }
-    }
-
-	//Pause screen
-    if(keys[32]){
-    	theScreen = "pause";
-    }
-    
-    
-    //Ball collision against top and bottom wall
-    if(ball.y <= 0 || ball.y+ ball.height >= ctx.canvas.height){
-    	ball.velY = -ball.velY;
         
-    } 
-    
-    
-    //Against left and right walls
-    if (ball.x + ball.width >= ctx.canvas.width){
-    	theScreen = "p1s";
-    } else if(ball.x <= 0){
-    	theScreen = "p2s";
-    }
-    
-    //Against player paddles
-    if(ball.x <= player1.x + player1.width && ball.y + ball.height >= player1.y && ball.y <= player1.y + player1.height){
+        		//Draws players
+		ctx.fillStyle = "white";
+		ctx.fillRect(player1.x, player1.y, player1.width, player1.height);
+
+		ctx.fillStyle = "white";
+		ctx.fillRect(player2.x, player2.y, player2.width, player2.height);
+
+		//Draw ball(s)
+		ctx.fillStyle = "white";
+		ctx.fillRect(ball.x, ball.y, ball.width, ball.height)
+
         
-        if(ball.velX > 0){
-        	ball.velX ++;
-        } else {
-        	ball.velX --;
-        }
-    	ball.velX = -ball.velX;
-        
-        player1.speed += 0.5;
-        player2.speed += 0.5;
-    }
-    
-    if(ball.x + ball.width>= player2.x && ball.y + ball.height >= player2.y && ball.y <= player2.y + player2.height){
-
-		if(ball.velX > 0){
-        	ball.velX ++;
-        } else {
-        	ball.velX --;
-        }        
-    	ball.velX = -ball.velX;
-        player1.speed += 0.5;
-        player2.speed += 0.5;
-
-    }
-    
-    
-    //Ball movement
-    if(ball.direction == "right"){
-      ball.x += ball.velX * Math.cos(ball.angle * Math.PI / 180);
-      ball.y += ball.velY * Math.sin(ball.angle * Math.PI / 180);
-    } else if (ball.direction == "left"){
-      ball.x -= ball.velX * Math.cos(ball.angle * Math.PI / 180);
-      ball.y -= ball.velY * Math.sin(ball.angle * Math.PI / 180);
-    }
-
-  } else if(theScreen == "ready"){
-	ctx.fillStyle = "white";
-    ctx.font = "100px Arial"
-    ctx.fillText("READY", ctx.canvas.width/2 - 200, ctx.canvas.height/2);
+		ctx.fillText("PAUSE", ctx.canvas.width / 2 - 200, ctx.canvas.height / 2);
 
 
+		//Pause screen
+		setTimeout(function() {
+
+			if (keys[32]) {
+
+				theScreen = "game";
 
 
-	if(startedWait == false){
-    startedWait = true;
-    setTimeout(function(){
-    	theScreen = "game";
-        startedWait = false;
-    }, 2000);
-    
-    }
-    
-    
-  } else if(theScreen == "p1s"){
-	ctx.fillStyle = "white";
-    ctx.font = "100px Arial"
-    ctx.fillText("P1 SCORED", ctx.canvas.width/2 - 200, ctx.canvas.height/2);
-    
-    reset();
-    
-	if(startedWait == false){
-    startedWait = true;
-    setTimeout(function(){
-    	theScreen = "game";
-        startedWait = false;
-    }, 1500);
-    }
-    
-    
-  } else if(theScreen == "p2s"){
-	ctx.fillStyle = "white";
-    ctx.font = "100px Arial"
-    ctx.fillText("P2 SCORED", ctx.canvas.width/2 - 200, ctx.canvas.height/2);
-    
-    
-    reset();
+			}
 
-    
-	if(startedWait == false){
-    startedWait = true;
-    setTimeout(function(){
-    	theScreen = "game";
-        startedWait = false;
-    }, 1500);
-    
-    }
-    
-  } else if(theScreen == "pause"){
-  	ctx.fillStyle = "white";
-    ctx.font = "100px Arial";
-    ctx.fillText("PAUSE", ctx.canvas.width/2 - 200, ctx.canvas.height/2);
-    
-    
-	//Pause screen
-                setTimeout(function(){
+		}, 500);
 
-    	if(keys[32]){
 
-    	theScreen = "game";
-        
-
-        }
-	
-                	}, 500);
-
-    
-  }
+	}
 
 	requestAnimationFrame(frame);
 
-  
+
 
 
 }
 
 frame();
-
 
 </script>
