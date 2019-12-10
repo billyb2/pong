@@ -112,6 +112,8 @@ function reset() {
 	ball.y = ctx.canvas.height / 2 - 5;
 
 	ball.velX = 5;
+    
+    ball.angle = 0;
 
 	//Reset player variables
 	player1.x = 0;
@@ -194,7 +196,8 @@ function frame() {
 
 		//Against player paddles
 		if (ball.x <= player1.x + player1.width && ball.y + ball.height >= player1.y && ball.y <= player1.y + player1.height) {
-
+			ball.angle = player1.y + player1.height/2 - ball.y
+            
 			if (ball.velX > 0) {
             	if(ball.velX < 20){
 					ball.velX++;
@@ -212,6 +215,8 @@ function frame() {
 		}
 
 		if (ball.x + ball.width >= player2.x && ball.y + ball.height >= player2.y && ball.y <= player2.y + player2.height) {
+        
+        	ball.angle = player2.y + player2.height/2-ball.y
 
 			if (ball.velX > 0) {
             	if(ball.velX < 20){
