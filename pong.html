@@ -24,6 +24,8 @@ function Player(player) {
 
 	this.speed = player.speed;
 
+	this.score = 0;
+
 }
 
 
@@ -112,8 +114,8 @@ function reset() {
 	ball.y = ctx.canvas.height / 2 - 5;
 
 	ball.velX = 5;
-    
-    ball.angle = 0;
+
+	ball.angle = 0;
 
 	//Reset player variables
 	player1.x = 0;
@@ -148,15 +150,21 @@ function frame() {
 		ctx.fillRect(ball.x, ball.y, ball.width, ball.height)
 
 
+		ctx.font = "75px Arial";
+		ctx.fillText(player1.score, 50, 70);
+
+		ctx.fillText(player2.score, ctx.canvas.width - 100, 70);
+
+
 
 
 		//Player 1 movement
-		if (keys[38]) {
+		if (keys[87]) {
 			if (player1.y >= 0) {
 				player1.y -= player1.speed;
 			}
 
-		} else if (keys[40]) {
+		} else if (keys[83]) {
 			if (player1.y <= ctx.canvas.height - player1.height) {
 				player1.y += player1.speed;
 			}
@@ -164,11 +172,11 @@ function frame() {
 
 
 		//Player 2 movement
-		if (keys[87]) {
+		if (keys[38]) {
 			if (player2.y >= 0) {
 				player2.y -= player2.speed;
 			}
-		} else if (keys[83]) {
+		} else if (keys[40]) {
 			if (player2.y <= ctx.canvas.height - player1.height) {
 				player2.y += player2.speed;
 			}
@@ -196,44 +204,45 @@ function frame() {
 
 		//Against player paddles
 		if (ball.x <= player1.x + player1.width && ball.y + ball.height >= player1.y && ball.y <= player1.y + player1.height) {
-			ball.angle = player1.y + player1.height/2 - ball.y
-            
+			ball.angle = player1.y + player1.height / 2 - ball.y
+
 			if (ball.velX > 0) {
-            	if(ball.velX < 20){
+				if (ball.velX < 20) {
 					ball.velX++;
-                }
+				}
 			} else {
-            	if(ball.velX > -20){
+				if (ball.velX > -20) {
 					ball.velX--;
-                }
+				}
 			}
-            
+
 			ball.velX = -ball.velX;
-7.5
+			7.5
 			player1.speed += 0.5;
 			player2.speed += 0.5;
 		}
 
 		if (ball.x + ball.width >= player2.x && ball.y + ball.height >= player2.y && ball.y <= player2.y + player2.height) {
-        
-        	ball.angle = player2.y + player2.height/2-ball.y
+
+			ball.angle = player2.y + player2.height / 2 - ball.y
 
 			if (ball.velX > 0) {
-            	if(ball.velX < 20){
+				if (ball.velX < 20) {
 					ball.velX++;
-                }
+				}
 			} else {
-            	if(ball.velX > -20){
+				if (ball.velX > -20) {
 					ball.velX--;
-                }
+				}
 			}
 			ball.velX = -ball.velX;
-            
-            if(player1.x < 16){
+
+			if (player1.x < 16) {
 				player1.speed += 0.5;
-            } if (player2.x < 16){
+			}
+			if (player2.x < 16) {
 				player2.speed += 0.5;
-            }
+			}
 
 		}
 
@@ -275,6 +284,7 @@ function frame() {
 		if (startedWait == false) {
 			startedWait = true;
 			setTimeout(function() {
+				player1.score++;
 				theScreen = "game";
 				startedWait = false;
 			}, 1500);
@@ -293,6 +303,7 @@ function frame() {
 		if (startedWait == false) {
 			startedWait = true;
 			setTimeout(function() {
+				player2.score++;
 				theScreen = "game";
 				startedWait = false;
 			}, 1500);
@@ -302,9 +313,9 @@ function frame() {
 	} else if (theScreen == "pause") {
 		ctx.fillStyle = "white";
 		ctx.font = "100px Arial";
-        
-        
-        		//Draws players
+
+
+		//Draws players
 		ctx.fillStyle = "white";
 		ctx.fillRect(player1.x, player1.y, player1.width, player1.height);
 
@@ -315,8 +326,9 @@ function frame() {
 		ctx.fillStyle = "white";
 		ctx.fillRect(ball.x, ball.y, ball.width, ball.height)
 
-        
+
 		ctx.fillText("PAUSE", ctx.canvas.width / 2 - 200, ctx.canvas.height / 2);
+
 
 
 		//Pause screen
@@ -342,5 +354,4 @@ function frame() {
 }
 
 frame();
-
 </script>
