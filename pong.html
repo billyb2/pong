@@ -177,6 +177,10 @@ function frame() {
         }
     }
 
+	//Pause screen
+    if(keys[32]){
+    	theScreen = "pause";
+    }
     
     
     //Ball collision against top and bottom wall
@@ -281,6 +285,25 @@ function frame() {
     }, 1500);
     
     }
+    
+  } else if(theScreen == "pause"){
+  	ctx.fillStyle = "white";
+    ctx.font = "100px Arial";
+    ctx.fillText("PAUSE", ctx.canvas.width/2 - 200, ctx.canvas.height/2);
+    
+    
+	//Pause screen
+                setTimeout(function(){
+
+    	if(keys[32]){
+
+    	theScreen = "game";
+        
+
+        }
+	
+                	}, 500);
+
     
   }
 
